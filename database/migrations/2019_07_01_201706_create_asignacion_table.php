@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoAsignacionHabitacionTable extends Migration
+class CreateAsignacionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,22 @@ class CreateTipoAsignacionHabitacionTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_asignacion_habitacion', function (Blueprint $table) {
+        Schema::create('asignacion', function (Blueprint $table) {
             $table->increments('as_id');
             $table->datetime('as_fecha_asignacion');
-            $table->unsignedInteger('hot_id');
             $table->unsignedInteger('th_id');
+            $table->unsignedInteger('ac_id');
+            $table->unsignedInteger('hot_id');
+            $table->unsignedInteger('as_cantidad');
             $table->timestamps();
         });
 
-        Schema::table('tipo_asignacion_habitacion', function($table) {
-            $table->foreign('hot_id')->references('hot_id')->on('hoteles');
+        Schema::table('asignacion', function($table) {
+            $table->foreign('ac_id')->references('ac_id')->on('acomodacion');
             $table->foreign('th_id')->references('th_id')->on('tipo_habitacion');
+            $table->foreign('hot_id')->references('hot_id')->on('hoteles');
         });
+        
     }
 
     /**
@@ -34,6 +38,6 @@ class CreateTipoAsignacionHabitacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_asignacion_habitacion');
+        Schema::dropIfExists('asignacion');
     }
 }
